@@ -1,23 +1,21 @@
-import React from 'react';
-import styled from 'styled-components';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
+import styled from "styled-components";
+import db from "../db.json";
+import Widget from "../src/components/Widget";
+import QuizBackground from "../src/components/QuizBackground"
+import Footer from "../src/components/Footer"
+import GitHubCorner from "../src/components/GitHubCorner"
 
-import db from '../db.json';
-import Widget from '../src/components/Widget';
-import QuizLogo from '../src/components/QuizLogo';
-import QuizBackground from '../src/components/QuizBackground';
-import Footer from '../src/components/Footer';
-import GitHubCorner from '../src/components/GitHubCorner';
 
-// const BackgroundImage = styled.div`
-//   background-image: url(${db.bg});
-//   flex: 1;
-//   background-size: cover;
-//   background-position: center;
-// `;
+//https://github.com/vercel/next.js/tree/canary/examples/with-styled-components
 
-export const QuizContainer = styled.div`
+const Title = styled.h1`
+  font-size: 50px;
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
+
+
+const QuizContainer = styled.div`
   width: 100%;
   max-width: 350px;
   padding-top: 45px;
@@ -28,55 +26,36 @@ export const QuizContainer = styled.div`
   }
 `;
 
-export default function Home() {
-  const router = useRouter();
-  const [name, setName] = React.useState('');
+const ContentP = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+`;
 
+export default function Home() {
   return (
     <QuizBackground backgroundImage={db.bg}>
-      <Head>
-        <title>AluraQuiz - Modelo Base</title>
-      </Head>
       <QuizContainer>
-        <QuizLogo />
         <Widget>
           <Widget.Header>
-            <h1>The legend of zelda</h1>
+            <Title>{`${db.title}`}</Title>
           </Widget.Header>
           <Widget.Content>
-            <form onSubmit={function (infosDoEvento) {
-              infosDoEvento.preventDefault();
-              router.push(`/quiz?name=${name}`);
-              console.log('Fazendo uma submissão por meio do react');
-            }}
-            >
-              <input
-                onChange={function (infosDoEvento) {
-                  console.log(infosDoEvento.target.value);
-                  // State
-                  // name = infosDoEvento.target.value;
-                  setName(infosDoEvento.target.value);
-                }}
-                placeholder="Diz ai seu nome"
-              />
-              <button type="submit" disabled={name.length === 0}>
-                Jogar
-                {name}
-              </button>
-            </form>
+            <ContentP>{`${db.description}`}</ContentP>
           </Widget.Content>
         </Widget>
 
         <Widget>
+          <Widget.Header>
+            <Title>Teste seus conhecimentos!</Title>
+          </Widget.Header>
           <Widget.Content>
-            <h1>Quizes da Galera</h1>
-
-            <p>lorem ipsum dolor sit amet...</p>
+            <ContentP>{`${db.description}`}</ContentP>
           </Widget.Content>
         </Widget>
-        <Footer />
+        <Footer/>
       </QuizContainer>
-      <GitHubCorner projectUrl="https://github.com/omariosouto" />
+      <GitHubCorner projectUrl="https://github.com/ocariocawebdesign/aluraquiz-base"/>
     </QuizBackground>
   );
 }
